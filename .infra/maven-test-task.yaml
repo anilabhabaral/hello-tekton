@@ -1,24 +1,30 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: java-output-task-anil
+  name: maven-test-task-anil
 spec:
-  description: Compile Java application with Maven
+  description: Test Java application with Maven
   params:
     - name: maven-image
       description: Namespace where the image will be pushed
       default: registry.access.redhat.com/ubi8/openjdk-11:1.18-2
       type: string
   steps:
-    - name: console-output
+    - name: run-maven-test
       image: $(params.maven-image)
       workingDir: $(workspaces.source.path)/code
       command:
-        - java
+        - mvn
       args:
-        - -cp
-        - target/my-app-1.0-SNAPSHOT.jar
-        - com.mycompany.app.App 
+        - test
+    - name: maven-test-result
+      image: $(params.maven-image)
+      workingDir: $(workspaces.source.path)/code
+      command:
+        - /bin/bash
+        - -c      
+        - cat target/surefire-reports/*.xml        
+
   workspaces:
     - description: Persistance Storage between Pods.
       name: source
