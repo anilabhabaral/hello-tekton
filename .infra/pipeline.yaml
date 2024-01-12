@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: anil-maven-test-pipeline
+  name: anil-maven-test-pipeline11
   namespace: abaral-cicd-test
 spec:
   tasks:
