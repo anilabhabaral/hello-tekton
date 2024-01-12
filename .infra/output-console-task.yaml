@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: java-output-task-anil
+spec:
+  description: Compile Java application with Maven
+  params:
+    - name: maven-image
+      description: Namespace where the image will be pushed
+      default: registry.access.redhat.com/ubi8/openjdk-11:1.18-2
+      type: string
+  steps:
+    - name: maven-build
+      image: $(params.maven-image)
+      workingDir: $(workspaces.source.path)/code
+      command:
+        - java
+      args:
+        - -cp
+        - target/my-app-1.0-SNAPSHOT.jar
+        - com.mycompany.app.App 
+  workspaces:
+    - description: Persistance Storage between Pods.
+      name: source
