@@ -1,0 +1,55 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: anil-maven-test-pipeline
+  namespace: abaral-cicd-test
+spec:
+  tasks:
+  - name: hello-task-anil
+    taskRef:
+      kind: Task
+      name: hello-task-anil
+  - name: git-clone-task-anil
+    params:
+    - name: repo-url
+      value: https://github.com/anilabhabaral/hello-tekton.git
+    runAfter:
+    - hello-task-anil
+    taskRef:
+      kind: Task
+      name: git-clone-task-anil
+    workspaces:
+    - name: output
+      workspace: test01
+  - name: maven-build-anil
+    params:
+    - name: maven-image
+      value: registry.access.redhat.com/ubi8/openjdk-11:1.18-2
+    runAfter:
+    - git-clone-task-anil
+    taskRef:
+      kind: Task
+      name: maven-build-anil
+    workspaces:
+    - name: source
+      workspace: test01
+  - name: complete-task-anil
+    runAfter:
+    - java-output-task-anil
+    taskRef:
+      kind: Task
+      name: complete-task-anil
+  - name: java-output-task-anil
+    params:
+    - name: maven-image
+      value: registry.access.redhat.com/ubi8/openjdk-11:1.18-2
+    runAfter:
+    - maven-build-anil
+    taskRef:
+      kind: Task
+      name: java-output-task-anil
+    workspaces:
+    - name: source
+      workspace: test01
+  workspaces:
+  - name: test01
