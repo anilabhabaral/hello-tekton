@@ -4,8 +4,10 @@ metadata:
   name: complete-task-anil
 spec:
   steps:
-    - name: echo
-      image: alpine
-      script: |
-        #!/bin/sh
-        echo ">>>>>>>>>>>>>>>> Pipeline Completed Successfully!!!!! <<<<<<<<<<<<<<<<<<<"       
+  - command:
+    - /bin/bash
+    - -c
+    - echo ">>>>>>>>>>>>>>>> Pipeline Completed Successfully!!!!! <<<<<<<<<<<<<<<<<<<"  
+    image: registry.redhat.io/ubi7/ubi-minimal
+    name: ""
+    resources: {}

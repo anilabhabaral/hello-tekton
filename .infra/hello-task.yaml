@@ -4,8 +4,10 @@ metadata:
   name: hello-task-anil
 spec:
   steps:
-    - name: echo
-      image: alpine
-      script: |
-        #!/bin/sh
-        echo ">>>>>>>>>>>>>>>> Hello Anilabha! Pipeline Started. <<<<<<<<<<<<<<<<<<<"       
+  - command:
+    - /bin/bash
+    - -c
+    - echo ">>>>>>>>>>>>>> Hello Anilabha! Pipeline Started!.. <<<<<<<<<<<<"
+    image: registry.redhat.io/ubi7/ubi-minimal
+    name: ""
+    resources: {}
