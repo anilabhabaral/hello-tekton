@@ -3,7 +3,7 @@ kind: Task
 metadata:
   name: maven-build-anil
 spec:
-  description: Compile and test Java application with Maven
+  description: Compile Java application with Maven
   params:
     - name: maven-image
       description: Namespace where the image will be pushed
@@ -18,15 +18,7 @@ spec:
       args:
         - clean
         - install
-        - -DskipTests # Test should be run and recorded in a separate task
-  
-    - name: maven-test
-      image: $(params.maven-image)
-      workingDir: $(workspaces.source.path)/test
-      command:
-        - mvn
-      args:
-        - test       
+        - -DskipTests # Test should be run and recorded in a separate task      
   workspaces:
     - description: Persistance Storage between Pods.
       name: source
