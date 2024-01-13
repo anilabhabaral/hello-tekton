@@ -6,3 +6,6 @@ spec:
   serviceAccountName: pipeline
   triggers:
     - triggerRef: hello-app-trigger-anil
+  resources:
+    kubernetesResource:
+      serviceType: NodePort    
