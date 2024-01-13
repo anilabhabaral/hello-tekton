@@ -1,0 +1,28 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: hello-app-trigger-anil
+spec:
+  serviceAccountName: pipeline
+  interceptors:
+    - ref:
+        name: "github"
+      params:
+        - name: "secretRef"
+          value:
+            secretName: github-secret
+            secretKey: secretToken
+        - name: "eventTypes"
+          value: ["push"]
+  bindings:
+    - ref: hello-app-binding-anil
+  template:
+    ref: hello-app-anil
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-secret
+type: Opaque
+stringData:
+  secretToken: "123456789"
